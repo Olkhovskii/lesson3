@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
-
 
 public class NewTest {
 
@@ -19,8 +19,11 @@ public class NewTest {
         Configuration.browser = "chrome";
         Configuration.baseUrl = "https://demoqa.com/automation-practice-form";
         Configuration.pageLoadStrategy = "eager";
+        executeJavaScript("$('#fixedban').remove()");
+        executeJavaScript("$('footer').remove()"); 
+    }
 
-
+    private static void executeJavaScript(String s) {
     }
 
     @Test
@@ -38,7 +41,7 @@ public class NewTest {
         $(".react-datepicker__day--017:not(.react-datepicker__day--outside-month)").click();
         $("#subjectsInput").setValue("Architecture");
         $("#hobbiesWrapper").$(byText("Sports")).click();
-        $("#uploadPicture").uploadFile(new File("src/test/resources/1.png"));
+        $("#uploadPicture").uploadFromClasspath("1.png");
         $("#currentAddress").setValue("Russia");
         $("div").scrollTo();
         $("#state").click();
@@ -46,7 +49,15 @@ public class NewTest {
         $("#city").click();
         $("#stateCity-wrapper").$(byText("Noida")).click();
         $("#submit").click();
-
+        $("tbody > tr:nth-child(1) > td:nth-child(2)").shouldHave(text("Andrew Olkhovskii"));
+        $("tr:nth-child(2) > td:nth-child(2)").shouldHave(text("test@email.com"));
+        $("tbody > tr:nth-child(3) > td:nth-child(2)").shouldHave(text("Male"));
+        $("tbody > tr:nth-child(4) > td:nth-child(2)").shouldHave(text("8999777654"));
+        $("tbody > tr:nth-child(5) > td:nth-child(2)").shouldHave(text("17 August,1990"));
+        $("tbody > tr:nth-child(7) > td:nth-child(2)").shouldHave(text("Sports"));
+        $("tbody > tr:nth-child(8) > td:nth-child(2)").shouldHave(text("1.png"));
+        $("tbody > tr:nth-child(9) > td:nth-child(2)").shouldHave(text("Russia"));
+        $("tbody > tr:nth-child(10) > td:nth-child(2)").shouldHave(text("NCR Noida"));
+        $("#closeLargeModal").click();
     }
-
 }
